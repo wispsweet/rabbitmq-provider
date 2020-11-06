@@ -7,7 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
- * @Author : JCccc
+ * @Author :
  * @CreateTime : 2019/9/3
  * @Description :
  **/

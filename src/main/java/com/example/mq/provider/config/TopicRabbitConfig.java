@@ -8,11 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author : JCccc
- * @CreateTime : 2019/9/3
+ * @Author :
+ * @CreateTime :
  * @Description :
  **/
-
 @Configuration
 public class TopicRabbitConfig {
     //绑定键
