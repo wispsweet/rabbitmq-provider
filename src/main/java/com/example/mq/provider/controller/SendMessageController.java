@@ -6,6 +6,8 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -120,5 +122,14 @@ public class SendMessageController {
         String jsonString = JSON.toJSONString(map);
         rabbitTemplate.convertAndSend("TestManualDirectExchange", "TestManualDirectRouting", jsonString);
         return "ok";
+    }
+
+    @GetMapping("/dead")
+    public String deadLetterMessage(@RequestParam("msg") String msg){
+        String BUSINESS_EXCHANGE_NAME = "dead.letter.demo.simple.business.exchange";
+
+        rabbitTemplate.convertSendAndReceive(BUSINESS_EXCHANGE_NAME, "", msg);
+
+        return "OK";
     }
 }
