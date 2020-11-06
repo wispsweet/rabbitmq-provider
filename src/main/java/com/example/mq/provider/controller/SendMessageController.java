@@ -1,11 +1,15 @@
 package com.example.mq.provider.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -103,7 +107,7 @@ public class SendMessageController {
         return "ok";
     }
 
-    //手动确认消息接收
+    //手动确认消息接收|json格式数据
     @GetMapping("/TestManualMessage")
     public String TestManualMessage() {
         String messageId = String.valueOf(UUID.randomUUID());
@@ -113,7 +117,8 @@ public class SendMessageController {
         map.put("messageId", messageId);
         map.put("messageData", messageData);
         map.put("createTime", createTime);
-        rabbitTemplate.convertAndSend("TestManualDirectExchange", "TestManualDirectRouting", map);
+        String jsonString = JSON.toJSONString(map);
+        rabbitTemplate.convertAndSend("TestManualDirectExchange", "TestManualDirectRouting", jsonString);
         return "ok";
     }
 }
